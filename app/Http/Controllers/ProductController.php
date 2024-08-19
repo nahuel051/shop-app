@@ -70,11 +70,42 @@ public function addToCart(Request $request, $id)
         return back()->withErrors(['message' => 'No puedes comprar tu propio producto.']);
     }
 
-    // Lógica para agregar el producto al carrito (pendiente de implementar)
-    // ...
+    //Almacenar el arituclo en el carrito en la sesión
+    $cart = session()->get('cart', []);
+
+    $cart[$id] = [
+        "name" => $product->name,
+        "quantity" => $request->quantity,
+        "price" => $product->price,
+        "img" => $product->img,
+        "total" => $product->price * $request->quantity,
+    ];
+
+    session()->put('cart', $cart);
 
     return redirect()->route('cart.index');
 }
+//Vista del carrito de compras
+public function cart()
+{
+    $cart = session()->get('cart', []);
+    return view('cart.index', compact('cart'));
+}
+public function removeFromCart($id)
+{
+    $cart = session()->get('cart');
 
+    if(isset($cart[$id])) {
+        unset($cart[$id]);
+        session()->put('cart', $cart);
+    }
+
+    return redirect()->route('cart.index');
+}
+//Procesar a pagar el pago
+public function checkout()
+{
+    return view('checkout.index');
+}
 
 }

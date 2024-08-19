@@ -27,4 +27,9 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 //Ruta para agregar al carrito
 Route::post('/cart/{id}', [ProductController::class, 'addToCart'])->name('cart.add');
-
+//Mostrar carrito
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
+//Eliminar articulo del carrito
+Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+//Ruta para checkout
+Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
