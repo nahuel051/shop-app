@@ -6,9 +6,6 @@
     <title>Inicio</title>
 </head>
 <body>
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">Cerrar Sesión</button>
-    </form>
+    @include('sidebar')
 </body>
 </html>
