@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SaleReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,3 +49,7 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->name('p
 
 // Ruta para eliminar productos
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
+
+
+Route::get('/sales', [SaleReportController::class, 'index'])->name('sales.index');
+Route::get('/sales/pdf/{saleId}', [SaleReportController::class, 'generatePdf'])->name('sales.generatePdf');

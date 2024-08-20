@@ -15,12 +15,12 @@ class Sale extends Model
     // Relación: Un 'Sale' pertenece a un usuario
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Relación: Un 'Sale' tiene muchos 'DetailsSale'
     public function details()
     {
-        return $this->hasMany(DetailsSale::class);
+        return $this->hasMany(DetailsSale::class, 'sale_id');
     }
 }
