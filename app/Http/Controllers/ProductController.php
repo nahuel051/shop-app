@@ -105,7 +105,7 @@ public function removeFromCart($id)
 //Procesar a pagar el pago
 public function checkout()
 {
-    return view('checkout.index');
+    return view('checkout.payment');
 }
 
 }

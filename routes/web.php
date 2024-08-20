@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,3 +34,6 @@ Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
 Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
 //Ruta para checkout
 Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
+
+Route::get('/checkout/payment', [PaymentController::class, 'showPaymentForm'])->name('checkout.payment');
+Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
