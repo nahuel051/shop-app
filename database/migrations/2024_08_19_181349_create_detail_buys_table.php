@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('detail_buys', function (Blueprint $table) {
             $table->id();
             $table->foreignId('buy_id')->constrained('buys')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('set null'); // Asegúrate de que pueda ser null
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
             $table->timestamps();

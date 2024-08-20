@@ -37,3 +37,14 @@ Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.
 
 Route::get('/checkout/payment', [PaymentController::class, 'showPaymentForm'])->name('checkout.payment');
 Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+
+//Administrador de productos
+// Ruta para listar los productos del usuario
+Route::get('/products', [ProductController::class, 'admin_product'])->name('products.adminproduct')->middleware('auth');
+
+// Rutas para editar y actualizar productos
+Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->middleware('auth');
+Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update')->middleware('auth');
+
+// Ruta para eliminar productos
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');

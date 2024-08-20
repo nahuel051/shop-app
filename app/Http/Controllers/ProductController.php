@@ -108,4 +108,65 @@ public function checkout()
     return view('checkout.payment');
 }
 
+    //ADMINISTRADOR DE PRODUCTOS
+    public function admin_product(){
+        //obtener los productos del usuario autenticado
+        $products = Product::where('user_id', Auth::id())->get();
+        // Retornar la vista 'products.adminproduct' pasando los productos obtenidos
+        return view('products.adminproduct', compact('products'));
+    }
+
+    // Método para mostrar el formulario de edición
+    public function edit(Product $product)
+    {
+        // Verificar que el usuario tiene permiso para editar este producto
+        if ($product->user_id !== Auth::id()) {
+            return redirect()->route('home')->withErrors('Unauthorized access');
+        }
+    // Retornar la vista 'products.edit' pasando el producto obtenido
+    //En lugar de escribir: return view('products.edit', ['product' => $product]);
+        return view('products.edit', compact('product'));
+    }
+
+    // Método para actualizar el producto
+    public function update(Request $request, Product $product)
+    {
+        // Verificar que el usuario tiene permiso para actualizar este producto
+        if ($product->user_id !== Auth::id()) {
+            return redirect()->route('home')->withErrors('Unauthorized access');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        // Obtener solo los datos necesarios del request
+        $data = $request->only(['name', 'description', 'price', 'quantity']);
+        // Si se proporciona una nueva imagen, guardarla en el sistema de archivos
+        if ($request->hasFile('img')) {
+            $data['img'] = $request->file('img')->store('products', 'public');
+        }
+
+        $product->update($data);
+
+        return redirect()->route('products.adminproduct');
+    }
+    
+    // Método para eliminar el producto
+    public function destroy(Product $product)
+    {
+        // Verificar que el usuario tiene permiso para eliminar este producto
+        if ($product->user_id !== Auth::id()) {
+            return redirect()->route('home')->withErrors('Unauthorized access');
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.adminproduct');
+    }
+
+
 }
