@@ -15,12 +15,12 @@ class Buy extends Model
     // Relación: Un 'Buy' pertenece a un usuario
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     // Relación: Un 'Buy' tiene muchos 'DetailsBuy'
     public function details()
     {
-        return $this->hasMany(DetailsBuy::class);
+        return $this->hasMany(DetailsBuy::class, 'buy_id');
     }
 }

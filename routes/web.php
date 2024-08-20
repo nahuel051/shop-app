@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BuyReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
@@ -53,3 +54,7 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 Route::get('/sales', [SaleReportController::class, 'index'])->name('sales.index');
 Route::get('/sales/pdf/{saleId}', [SaleReportController::class, 'generatePdf'])->name('sales.generatePdf');
+
+Route::get('/buy', [BuyReportController::class, 'index'])->name('buy.index');
+Route::get('/buy/pdf/{buyId}', [BuyReportController::class, 'generatePdf'])->name('buy.generatePdf');
+

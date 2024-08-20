@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ventas</title>
+    <title>Compras realizadas</title>
 </head>
 <body>
 @include('sidebar')
@@ -23,8 +23,8 @@
                     <td>{{ $sale->id }}</td>
                     <td>{{ $sale->user ? $sale->user->name : 'Desconocido' }}</td>
                     <td>
-                        @if ($sale->details->isNotEmpty() && $sale->details->first()->product)
-                            {{ $sale->details->first()->product->user ? $sale->details->first()->product->user->name : 'Desconocido' }}
+                        @if ($sale->details->isNotEmpty() && $sale->details->first()->product->user)
+                            {{ $sale->details->first()->product->user->name }}
                         @else
                             Desconocido
                         @endif
