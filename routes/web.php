@@ -1,6 +1,6 @@
 <?php
+
 use App\Http\Controllers\BuyReportController;
-use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
@@ -28,17 +28,17 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 
 //Detalle de producto
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+//Ruta para agregar al carrito
+Route::post('/cart/{id}', [ProductController::class, 'addToCart'])->name('cart.add');
+//Mostrar carrito
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
+//Eliminar articulo del carrito
+Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+//Ruta para checkout
+Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
 
-// Rutas para el carrito
-Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-
-// Rutas para el checkout
 Route::get('/checkout/payment', [PaymentController::class, 'showPaymentForm'])->name('checkout.payment');
 Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
-
 
 //Administrador de productos
 // Ruta para listar los productos del usuario

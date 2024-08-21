@@ -45,8 +45,11 @@ class ProductController extends Controller
             'img' => $imagePath,
             'user_id' => Auth::id(), //Guardar el id del usuario publicador
         ]);
-
+        if ($request->ajax()) {
+                return response()->json(['success' => true]);
+            }
         return redirect()->route('home');
+        
     }
 
 //Mostrar detalled e producto
