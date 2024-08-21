@@ -34,6 +34,9 @@ Route::post('/cart/{id}', [ProductController::class, 'addToCart'])->name('cart.a
 Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
 //Eliminar articulo del carrito
 Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+
+
+
 //Ruta para checkout
 Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
 
@@ -42,7 +45,7 @@ Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->
 
 //Administrador de productos
 // Ruta para listar los productos del usuario
-Route::get('/products', [ProductController::class, 'admin_product'])->name('products.adminproduct')->middleware('auth');
+Route::get('/products', [ProductController::class, 'adminProduct'])->name('products.adminproduct')->middleware('auth');
 
 // Rutas para editar y actualizar productos
 Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->middleware('auth');
