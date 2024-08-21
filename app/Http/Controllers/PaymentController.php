@@ -1,5 +1,7 @@
 <?php
-
+// PaymentController:
+// Verifica nuevamente que todos los productos en el carrito sean del mismo vendedor antes de procesar el pago.
+// Registra tanto la compra (Buy) como la venta (Sale) y sus detalles, actualiza el stock, y luego limpia el carrito.
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -10,6 +12,7 @@ use App\Models\Sale;
 use App\Models\DetailsSale;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+
 class PaymentController extends Controller
 {
     public function showPaymentForm()
@@ -20,6 +23,7 @@ class PaymentController extends Controller
 
     public function processPayment(Request $request)
     {
+        // Validar método de pago
         $request->validate([
             'payment_method' => 'required|string|in:mercado_pago,paypal,visa',
         ]);
@@ -30,24 +34,33 @@ class PaymentController extends Controller
             return redirect()->route('cart.index')->withErrors('Tu carrito está vacío.');
         }
 
+        // Verificar que todos los productos en el carrito pertenecen al mismo vendedor
+        $sellerId = Product::find(array_key_first($cart))->user_id;
+        foreach ($cart as $id => $item) {
+            $product = Product::find($id);
+            if ($product->user_id !== $sellerId) {
+                return redirect()->route('cart.index')->withErrors('Todos los productos en el carrito deben ser del mismo vendedor.');
+            }
+        }
+
         // Calcular el total de la compra/venta
         $total = 0;
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
-        foreach ($cart as $id => $item) {
-            $product = Product::find($id);
-        }
 
         // Crear la entrada en la tabla 'buy'
         $buy = Buy::create([
-            'user_id' => $product->user_id, // Aquí se registra el vendedor
+            'user_id_seller' => $sellerId, // Se registra el vendedor
+            'user_id_buyer' => Auth::id(),  // Se registra el comprador
+            'payment_method' => $request->payment_method,
             'total' => $total,
         ]);
 
         // Crear la entrada en la tabla 'sale'
         $sale = Sale::create([
-            'user_id' => Auth::id(),
+            'user_id_seller' => $sellerId, // Se registra el vendedor
+            'user_id_buyer' => Auth::id(),  // Se registra el comprador
             'payment_method' => $request->payment_method,
             'total' => $total,
         ]);

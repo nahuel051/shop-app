@@ -10,12 +10,18 @@ class Sale extends Model
     use HasFactory;
     protected $table = 'sales';
 
-    protected $fillable = ['user_id', 'payment_method', 'total'];
+    protected $fillable = ['user_id_buyer', 'user_id_seller', 'payment_method', 'total'];
 
-    // Relación: Un 'Sale' pertenece a un usuario
-    public function user()
+    // Relación: Un 'Sale' pertenece a un usuario comprador
+    public function buyer()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id_buyer');
+    }
+
+    // Relación: Un 'Sale' pertenece a un usuario vendedor
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id_seller');
     }
 
     // Relación: Un 'Sale' tiene muchos 'DetailsSale'

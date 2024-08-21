@@ -9,17 +9,6 @@
 @include('sidebar')
 
     <h1>Confirmar Pago</h1>
-
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form action="{{ route('payment.process') }}" method="POST">
         @csrf
         <label for="payment_method">Método de Pago:</label>
@@ -31,5 +20,14 @@
         <br><br>
         <button type="submit">Confirmar Pago</button>
     </form>
+    @if ($errors->any())
+        <div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </body>
 </html>

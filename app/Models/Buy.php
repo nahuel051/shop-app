@@ -10,14 +10,21 @@ class Buy extends Model
     use HasFactory;
     protected $table = 'buys';
 
-    protected $fillable = ['user_id', 'total'];
+    protected $fillable = ['user_id_buyer', 'user_id_seller','payment_method', 'total'];
 
-    // Relación: Un 'Buy' pertenece a un usuario
-    public function user()
+
+    // Relación: Un 'Buy' pertenece a un usuario comprador
+    public function buyer()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id_buyer');
     }
 
+    // Relación: Un 'Buy' pertenece a un usuario vendedor
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id_seller');
+    }
+    
     // Relación: Un 'Buy' tiene muchos 'DetailsBuy'
     public function details()
     {

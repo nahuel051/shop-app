@@ -9,7 +9,7 @@
 @include('sidebar')
 
 <h1>Carrito de Compras</h1>
-@if(session('cart'))
+@if(session('cart') && count(session('cart')) > 0)
     <table>
         <thead>
             <tr>
@@ -41,9 +41,19 @@
         </tbody>
     </table>
     <br>
-    <a href="{{ route('checkout.index') }}">Proceder al Pago</a>
+    <a href="{{ route('checkout.payment') }}">Proceder al Pago</a>
      @else
     <p>Tu carrito está vacío.</p>
+@endif
+<!-- Mostrar mensajes de error -->
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
 @endif
 </body>
 </html>
