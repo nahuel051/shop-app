@@ -29,7 +29,11 @@ class AuthController extends Controller
             'city' => $request->city,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->route('login');
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
+    
+        // return redirect()->route('login');
     }
 
     public function showLoginForm(){
@@ -43,11 +47,13 @@ class AuthController extends Controller
         ]);
         //Verificar que los datos esten correctos y redireccionar a home
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('home');
+            // return redirect()->route('home');
+            return response()->json(['success' => true]);
+
         }
         //De lo contrario permanecer en login y mostrar mensaje de error.
-        return redirect()->route('login')->withErrors(['email' => 'Datos incorrectos']);
-
+        // return redirect()->route('login')->withErrors(['email' => 'Datos incorrectos']);
+        return response()->json(['errors' => ['email' => ['Las credenciales no coinciden con nuestros registros.']]], 422);
     }
 
     //Cerrar sesión 
