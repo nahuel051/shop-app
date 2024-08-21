@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PdfService;
@@ -23,8 +22,8 @@ class SaleReportController extends Controller
         $userId = Auth::id();
 
         // Obtener las ventas del usuario autenticado
-        $sales = Sale::with(['details.product', 'user'])
-                     ->where('user_id', $userId)
+        $sales = Sale::with(['details.product', 'buyer', 'seller']) // Asegúrate de que las relaciones sean correctas
+                     ->where('user_id_seller', $userId)
                      ->get();
 
         // Pasar las ventas filtradas a la vista
@@ -34,19 +33,18 @@ class SaleReportController extends Controller
     public function generatePdf($saleId)
     {
         // Obtener los detalles de la venta
-        $sale = Sale::with(['details.product', 'user', 'details.product.user'])
+        $sale = Sale::with(['details.product', 'buyer', 'seller'])
             ->findOrFail($saleId);
     
         // Preparar datos para el PDF
         $data = [
             'sale' => $sale,
-            'buyer' => $sale->user,
-            'seller' => $sale->details->first()->product->user, // Asegúrate de que esta relación exista
+            'buyer' => $sale->buyer,
+            'seller' => $sale->seller,
             'details' => $sale->details,
         ];
     
         // Generar el PDF usando el servicio
         $this->pdfService->generatePdf('sales.report', $data, "nota_de_venta_{$saleId}.pdf");
     }
-    
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Compras realizadas</title>
+    <title>Ventas realizadas</title>
 </head>
 <body>
 @include('sidebar')
-    <h1>Compras realizadas</h1>
+    <h1>Ventas realizadas</h1>
     <table border="1">
         <thead>
             <tr>
@@ -21,16 +21,10 @@
             @foreach ($sales as $sale)
                 <tr>
                     <td>{{ $sale->id }}</td>
-                    <td>{{ $sale->user ? $sale->user->name : 'Desconocido' }}</td>
-                    <td>
-                        @if ($sale->details->isNotEmpty() && $sale->details->first()->product->user)
-                            {{ $sale->details->first()->product->user->name }}
-                        @else
-                            Desconocido
-                        @endif
-                    </td>
+                    <td>{{ $sale->buyer ? $sale->buyer->name : 'Desconocido' }}</td>
+                    <td>{{ $sale->seller ? $sale->seller->name : 'Desconocido' }}</td>
                     <td>{{ $sale->payment_method }}</td>
-                    <td>${{ $sale->details->sum(function($detail) { return $detail->total; }) }}</td>
+                    <td>${{ $sale->details->sum('total') }}</td>
                     <td>
                         <a href="{{ route('sales.generatePdf', $sale->id) }}">Nota de Venta</a>
                     </td>

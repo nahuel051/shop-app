@@ -22,8 +22,8 @@ class BuyReportController extends Controller
         $userId = Auth::id();
 
         // Obtener las compras realizadas por el usuario autenticado
-        $buys = Buy::with(['details.product', 'user']) // Cargar la relación 'product.user' (vendedor)
-                    ->where('user_id', $userId) // Filtrar por el usuario autenticado (comprador)
+        $buys = Buy::with(['details.product', 'buyer', 'seller']) // Usar 'details' en lugar de 'detailsBuy'
+                    ->where('user_id_buyer', $userId) // Filtrar por el usuario autenticado (comprador)
                     ->get();
 
         // Pasar las compras filtradas a la vista
@@ -33,19 +33,18 @@ class BuyReportController extends Controller
     public function generatePdf($buyId)
     {
         // Obtener los detalles de la compra
-        $buy = Buy::with(['details.product.user']) // Cargar la relación 'product.user' (vendedor)
-            ->where('user_id', Auth::id()) // Asegurarse de que sea la compra del usuario autenticado
+        $buy = Buy::with(['details.product', 'buyer', 'seller'])
             ->findOrFail($buyId);
     
         // Preparar datos para el PDF
         $data = [
             'buy' => $buy,
-            'buyer' => $buy->user, // El usuario autenticado que compró
-            'details' => $buy->details,
+            'buyer' => $buy->buyer,
+            'seller' => $buy->seller,
+            'details' => $buy->details, // Usar 'details' en lugar de 'detailsBuy'
         ];
     
         // Generar el PDF usando el servicio
         $this->pdfService->generatePdf('buy.report', $data, "nota_de_compra_{$buyId}.pdf");
     }
-    
 }

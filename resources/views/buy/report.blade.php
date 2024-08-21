@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nota de Venta</title>
+    <title>Nota de compra</title>
     <style>
         /* Aquí puedes agregar estilos para el PDF */
     </style>
 </head>
 <body>
-    <h1>Nota de Venta</h1>
+    <h1>Nota de compra</h1>
     <p><strong>ID Venta:</strong> {{ $buy->id }}</p>
-    <p><strong>Total de Venta:</strong> ${{ $buy->total }}</p>
+    <p><strong>Comprador:</strong> {{ $buyer->name }}</p>
+    <p><strong>Vendedor:</strong> {{ $seller->name }}</p>
+    <p><strong>Método de Pago:</strong> {{ $buy->payment_method }}</p>
+    <p><strong>Total de compra:</strong> ${{ $buy->total }}</p>
 
-    <h2>Detalles de la Venta</h2>
+    <h2>Detalles de la compra</h2>
     <table border="1">
         <thead>
             <tr>
