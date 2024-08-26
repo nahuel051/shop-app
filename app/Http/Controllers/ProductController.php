@@ -116,7 +116,7 @@ class ProductController extends Controller
     }
 
     // Administrador de productos: listar los productos del usuario autenticado// Administrador de productos: listar los productos del usuario autenticado
-public function admin_product()
+public function adminProduct()
 {
     $products = Product::where('user_id', Auth::id())->get();
     return view('products.adminproduct', compact('products'));
