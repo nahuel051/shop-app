@@ -22,22 +22,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(session('cart') as $id => $item)
-                <tr>
-                    <td><img src="{{ asset('storage/' . $item['img']) }}" alt="{{ $item['name'] }}" style="width: 50px; height: auto;"></td>
-                    <td>{{ $item['name'] }}</td>
-                    <td>{{ $item['quantity'] }}</td>
-                    <td>${{ $item['price'] }}</td>
-                    <td>${{ $item['total'] }}</td>
-                    <td>
-                        <form action="{{ route('cart.remove', $id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+        @foreach(session('cart') as $id => $item)
+    @php
+        $product = App\Models\Product::find($id);
+    @endphp
+    <tr>
+        <td><img src="{{ asset('storage/' . $item['img']) }}" alt="{{ $item['name'] }}" style="width: 50px; height: auto;"></td>
+        <td>{{ $item['name'] }}</td>
+        <td>{{ $item['quantity'] }}</td>
+        <td>${{ $item['price'] }}</td>
+        <td>${{ $item['total'] }}</td>
+        <td>
+            <form action="{{ route('cart.remove', $id) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
         </tbody>
     </table>
     <br>

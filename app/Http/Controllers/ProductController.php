@@ -60,41 +60,57 @@ class ProductController extends Controller
 
     // Agregar producto al carrito
     public function addToCart(Request $request, $id)
-    {
-        $product = Product::findOrFail($id);
+{
+    $product = Product::findOrFail($id);
 
-        // Verifica si el producto tiene stock suficiente
-        if ($product->quantity < $request->quantity) {
-            return back()->withErrors(['message' => 'No hay suficiente stock disponible.']);
-        }
-
-        // Verifica si el usuario está intentando comprar su propio producto
-        if (Auth::id() === $product->user_id) {
-            return back()->withErrors(['message' => 'No puedes comprar tu propio producto.']);
-        }
-
-        // Almacenar el artículo en el carrito en la sesión
-        $cart = session()->get('cart', []);
-
-        $cart[$id] = [
-            "name" => $product->name,
-            "quantity" => $request->quantity,
-            "price" => $product->price,
-            "img" => $product->img,
-            "total" => $product->price * $request->quantity,
-        ];
-
-        session()->put('cart', $cart);
-
-        return redirect()->route('cart.index');
+    // Verifica si el producto tiene stock suficiente
+    if ($product->quantity < $request->quantity) {
+        return back()->withErrors(['message' => 'No hay suficiente stock disponible.']);
     }
+
+    // Verifica si el usuario está intentando comprar su propio producto
+    if (Auth::id() === $product->user_id) {
+        return back()->withErrors(['message' => 'No puedes comprar tu propio producto.']);
+    }
+
+    // Almacenar el artículo en el carrito en la sesión
+    $cart = session()->get('cart', []);
+
+    $cart[$id] = [
+        "name" => $product->name,
+        "quantity" => $request->quantity,
+        "price" => $product->price,
+        "img" => $product->img,
+        "total" => $product->price * $request->quantity,
+    ];
+
+    session()->put('cart', $cart);
+
+    return redirect()->route('cart.index');
+}
+
+
 
     // Mostrar vista del carrito de compras
     public function cart()
     {
         $cart = session()->get('cart', []);
+    
+        // Depura el carrito para asegurarte de que contiene los productos correctos
+        foreach ($cart as $id => $item) {
+            $product = Product::find($id);
+            if ($product && $product->user_id === Auth::id()) {
+                // Eliminar productos del carrito que pertenecen al usuario
+                unset($cart[$id]);
+            }
+        }
+    
+        session()->put('cart', $cart);
+    
         return view('cart.index', compact('cart'));
     }
+    
+    
 
     // Eliminar artículo del carrito
     public function removeFromCart($id)
