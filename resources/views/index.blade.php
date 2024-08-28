@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-</head>
-
+@include('header')
 <body>
     @include('sidebar')
     @foreach($products as $product)
@@ -19,5 +11,27 @@
             <a href="{{ route('products.show', $product->id) }}">Ver Detalle</a>
         </div>
     @endforeach
-</body>
+    <script>
+const nav = document.querySelector("#navegation");
+const abrir = document.querySelector("#open");
+const cerrar = document.querySelector("#close");
+const cerrarLinks = document.querySelectorAll(".close-link");
+
+abrir.addEventListener("click", () => {
+    nav.classList.add("visible");
+    console.log("Navegación abierta"); // Agrega un mensaje para depuración
+});
+
+cerrar.addEventListener("click", () => {
+    nav.classList.remove("visible");
+});
+
+cerrarLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        nav.classList.remove("visible");
+    });
+});
+
+    </script>
+    </body>
 </html>
