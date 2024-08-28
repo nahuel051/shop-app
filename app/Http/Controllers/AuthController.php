@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function showRegisterForm(){
-        return view('register');
+    public function showAuthForm(){
+        return view('auth');
     }
     public function register(Request $request){
         $request->validate([
@@ -32,13 +32,7 @@ class AuthController extends Controller
         if ($request->ajax()) {
             return response()->json(['success' => true]);
         }
-    
-        // return redirect()->route('login');
-    }
-
-    public function showLoginForm(){
-        return view('login');
-    }
+        }
 
     public function login(Request $request){
         $request->validate([

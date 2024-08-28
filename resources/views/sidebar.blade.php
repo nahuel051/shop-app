@@ -5,7 +5,7 @@
 <a href="{{route('sales.index')}}">Ventas realizadas</a>
 <a href="{{route('buy.index')}}">Compras realizadas</a>
 
-<form action="{{ route('logout') }}" method="POST">
+<form action="{{ route('auth') }}" method="POST">
     @csrf
     <button type="submit">Cerrar Sesión</button>
 </form>
