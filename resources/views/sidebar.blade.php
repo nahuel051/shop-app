@@ -1,3 +1,4 @@
+<div class="container-nav">
 <button id="open" class="open">
     <i class="fa-solid fa-bars"></i>
 </button>
@@ -29,5 +30,5 @@
 </form></li>  
     </ul>
 </div> <!-- Fin de navegador -->
-
+</div> <!-- container-nav -->
 
