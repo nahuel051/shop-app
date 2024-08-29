@@ -569,3 +569,142 @@ textarea{
   justify-content: center;
   align-items: center;
 }
+
+/* Cart */
+.table-container {
+  width: 80%;
+  overflow-x: auto; 
+  margin: 25px auto; 
+}
+
+.styled-table {
+  border-collapse: collapse;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+}
+
+.styled-table thead tr {
+  background-color: #C34348;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #C34348;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.content-cart{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+}
+
+.content-cart h2{
+  margin-top: 5%;
+}
+
+.content-cart button{
+  background-color: transparent;
+  color: #20212A;
+  border: none;
+  cursor: pointer;
+}
+
+.content-cart button i{
+font-size: 20px;
+}
+
+.content-cart a{
+  text-decoration: none;
+  font-weight: 1000;
+  color: #20212A;
+  }
+
+  .content-cart a:hover{
+border-bottom: 2px solid #C34348;
+    }
+  
+
+/* ADMIN */
+.content-adm{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+}
+
+.content-adm h2{
+  margin-top: 5%;
+}
+
+.content-adm .table-container {
+  width: 90%;
+}
+
+.content-action{
+  display: flex;
+  width: 60%;
+}
+
+.content-action button{
+  background-color: transparent;
+  color: #20212A;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+
+.content-action a{
+  color: #20212A;
+font-size: 20px;
+}
+
+/* BUY AND SALE */
+.content-shopping{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+}
+
+.content-shopping h2{
+  margin-top: 5%;
+}
+
+.content-shopping .table-container {
+  width: 90%;
+}
+
+.content-shopping i{
+  color: #20212A;
+  font-size: 20px;
+  }
+  

@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito</title>
-</head>
+@include('header')
 <body>
+<div class="container-content">
 @include('sidebar')
-
-<h1>Carrito de Compras</h1>
+<div class="content-cart">
+<h2>Carrito de Compras</h2>
 @if(session('cart') && count(session('cart')) > 0)
-    <table>
+<div class="table-container">
+    <table class="styled-table">
         <thead>
             <tr>
                 <th>Imagen</th>
@@ -36,14 +32,15 @@
             <form action="{{ route('cart.remove', $id) }}" method="post">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Eliminar</button>
+                <button type="submit"><i class="fa-solid fa-xmark"></i></button>
             </form>
         </td>
     </tr>
 @endforeach
 
         </tbody>
-    </table>
+    </table> <!-- table-container -->
+    </div> 
     <br>
     <a href="{{ route('checkout.payment') }}">Proceder al Pago</a>
      @else
@@ -59,5 +56,29 @@
         </ul>
     </div>
 @endif
+</div>
+</div> <!-- content-cart -->
+<script>
+
+const nav = document.querySelector("#navegation");
+        const abrir = document.querySelector("#open");
+        const cerrar = document.querySelector("#close");
+        const cerrarLinks = document.querySelectorAll(".close-link");
+
+        abrir.addEventListener("click", () => {
+            nav.classList.add("visible");
+            console.log("Navegación abierta"); // Agrega un mensaje para depuración
+        });
+
+        cerrar.addEventListener("click", () => {
+            nav.classList.remove("visible");
+        });
+
+        cerrarLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                nav.classList.remove("visible");
+            });
+        });
+</script>
 </body>
 </html>

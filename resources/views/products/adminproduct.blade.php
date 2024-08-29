@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis productos</title>
-</head>
+@include('header')
 <body>
+<div class="container-content">
     @include('sidebar')
-    <table>
+    <div class="content-adm">
+    <h2>Administrador de productos</h2>
+    <div class="table-container">
+    <table class="styled-table">
         <thead>
         <tr>
         <th>Nombre del producto</th>
@@ -33,16 +31,42 @@
                 @endif
             </td>
             <td>
-            <a href="{{ route('products.edit', $product->id) }}">Editar</a>
+            <div class="content-action">
+            <a href="{{ route('products.edit', $product->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Eliminar</button>
+                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
                 </form>
+                </div> <!-- content-action -->
             </td>
         </tr>
         @endforeach
         </tbody>
     </table>
+    </div> <!-- table-container -->
+    </div> <!-- content-adm -->
+    </div> <!-- container-content -->
+    <script>
+        const nav = document.querySelector("#navegation");
+        const abrir = document.querySelector("#open");
+        const cerrar = document.querySelector("#close");
+        const cerrarLinks = document.querySelectorAll(".close-link");
+
+        abrir.addEventListener("click", () => {
+            nav.classList.add("visible");
+            console.log("Navegación abierta"); 
+        });
+
+        cerrar.addEventListener("click", () => {
+            nav.classList.remove("visible");
+        });
+
+        cerrarLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                nav.classList.remove("visible");
+            });
+        });
+    </script>
 </body>
 </html>
