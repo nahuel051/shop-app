@@ -7,7 +7,7 @@
         <i class="fa-solid fa-xmark"></i>
     </button>
     <div class="sidebar-head">
-    <img src="img/pokeball.png" alt="pokeball">
+    <img src="{{ asset('img/pokeball.png') }}" alt="pokeball">
     <span>
     {{ auth()->user()->name }}
     </span>

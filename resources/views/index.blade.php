@@ -12,7 +12,7 @@
                     <a href="{{ route('products.show', $product->id) }}">Ver Detalle</a>
                 </div>
             @endforeach
-        </div><!-- content -->
+        </div><!-- content-home -->
     </div> <!-- container-content -->
     <script>
         const nav = document.querySelector("#navegation");
