@@ -45,8 +45,6 @@ class AuthController extends Controller
             return response()->json(['success' => true]);
 
         }
-        //De lo contrario permanecer en login y mostrar mensaje de error.
-        // return redirect()->route('login')->withErrors(['email' => 'Datos incorrectos']);
         return response()->json(['errors' => ['email' => ['Las credenciales no coinciden con nuestros registros.']]], 422);
     }
 

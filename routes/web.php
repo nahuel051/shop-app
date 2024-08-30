@@ -11,53 +11,59 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Registro e Inicio de sesión
+//REGISTRO E INICIO DE SESIÓN
 Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/login', function() {
+    return redirect()->route('auth');
+});
+Route::get('/register', function() {
+    return redirect()->route('auth');
+});
+Route::get('/logout', function() {
+    return redirect()->route('auth');
+});
 
+// Rutas que requieren autenticación
+Route::middleware('auth')->group(function () {
+    //PAGINA PRINCIPAL
+    Route::get('/home', [ProductController::class, 'index'])->name('home');
 
+    //PUBLICAR PRODUCTO
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create'); //Formulario de creacion
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store'); //Procesa los datos y lo guarda en la base de datos.
 
-//Pagina principal
-Route::get('/home', [ProductController::class, 'index'])->name('home')->middleware('auth');
+    //DETALLE DE PRODUCTO
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+    //Ruta para agregar al carrito
+    Route::post('/cart/{id}', [ProductController::class, 'addToCart'])->name('cart.add');
 
-//Publicar producto
-Route::get('/products/create', [ProductController::class, 'create'])->name('products.create')->middleware('auth'); //Formulario de creacion
-Route::post('/products', [ProductController::class, 'store'])->name('products.store')->middleware('auth'); //Procesa los datos y lo guarda en la base de datos.
+    //CARRITO DE COMPRAS
+    Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
+    //Eliminar articulo del carrito
+    Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
 
-//Detalle de producto
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-//Ruta para agregar al carrito
-Route::post('/cart/{id}', [ProductController::class, 'addToCart'])->name('cart.add');
-//Mostrar carrito
-Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
-//Eliminar articulo del carrito
-Route::delete('/cart/{id}', [ProductController::class, 'removeFromCart'])->name('cart.remove');
+    //CHECKOUT
+    Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
+    Route::get('/checkout/payment', [PaymentController::class, 'showPaymentForm'])->name('checkout.payment');
+    Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
 
+    //ADMINISTRADOR DE PRODUCTOS
+    // Ruta para listar los productos del usuario
+    Route::get('/products', [ProductController::class, 'adminProduct'])->name('products.adminproduct');
+    // Rutas para editar y actualizar productos
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    // Ruta para eliminar productos
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
+    //SALE
+    Route::get('/sales', [SaleReportController::class, 'index'])->name('sales.index');
+    Route::get('/sales/pdf/{saleId}', [SaleReportController::class, 'generatePdf'])->name('sales.generatePdf');
 
-//Ruta para checkout
-Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
-
-Route::get('/checkout/payment', [PaymentController::class, 'showPaymentForm'])->name('checkout.payment');
-Route::post('/checkout/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
-
-//Administrador de productos
-// Ruta para listar los productos del usuario
-Route::get('/products', [ProductController::class, 'adminProduct'])->name('products.adminproduct')->middleware('auth');
-
-// Rutas para editar y actualizar productos
-Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->middleware('auth');
-Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update')->middleware('auth');
-
-// Ruta para eliminar productos
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware('auth');
-
-
-Route::get('/sales', [SaleReportController::class, 'index'])->name('sales.index');
-Route::get('/sales/pdf/{saleId}', [SaleReportController::class, 'generatePdf'])->name('sales.generatePdf');
-
-Route::get('/buy', [BuyReportController::class, 'index'])->name('buy.index');
-Route::get('/buy/pdf/{buyId}', [BuyReportController::class, 'generatePdf'])->name('buy.generatePdf');
-
+    //REPORTE
+    Route::get('/buy', [BuyReportController::class, 'index'])->name('buy.index');
+    Route::get('/buy/pdf/{buyId}', [BuyReportController::class, 'generatePdf'])->name('buy.generatePdf');
+});

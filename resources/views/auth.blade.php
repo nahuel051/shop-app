@@ -82,7 +82,7 @@
                     type: 'POST',
                     data: form.serialize(),
                     success: function (response) {
-                        window.location.href = "{{ route('home') }}";
+                        window.location.href = "{{ route('auth') }}";
                     },
                     error: function (xhr) {
                         var errors = xhr.responseJSON.errors;

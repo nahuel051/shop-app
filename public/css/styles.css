@@ -711,7 +711,6 @@ font-size: 20px;
 
 /* DETAILS PRODUCT */
 .content-detail{
-  border: 1px solid black;
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -740,7 +739,6 @@ font-size: 20px;
 /* Payment*/
 
 .content-payment{
-  border: 1px solid black;
   width: 100%;
   min-height: 100vh;
   display: flex;
