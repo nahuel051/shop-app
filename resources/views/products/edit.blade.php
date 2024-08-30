@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar producto</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+@include('header')
 <body>
+<div class="container-content">
     @include('sidebar')
+    <div class="content-create">
     <form id="editForm" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <h2>Editar Producto</h2>
     <input type="text" name="name" value="{{ $product->name }}" required placeholder="Nombre de producto">
     <textarea name="description" placeholder="Descripción" required>{{ $product->description }}</textarea>
     <input type="number" step="0.01" name="price" required placeholder="Precio" value="{{ $product->price }}">
     <input type="number" name="quantity" required placeholder="Cantidad" value="{{ $product->quantity }}">
-    <input type="file" name="img">
+    <div class="file-input">
+                    <input type="file" name="img">
+                    <label for="foto_perfil">Seleccionar foto</label>
+                    <span id="file-label">Ningún archivo seleccionado</span>
+            </div>
     <button type="submit">Editar</button>
     </form>
-    <div id="errorContainer" style="color: red;"></div>
-
+    <div id="errorContainer"></div>
+    </div> <!-- container-create -->
+    </div> <!-- container-content -->
 <script>
     $(document).ready(function() {
         $('#editForm').on('submit', function(e) {
@@ -49,6 +50,25 @@
             });
         });
     });
+    const nav = document.querySelector("#navegation");
+        const abrir = document.querySelector("#open");
+        const cerrar = document.querySelector("#close");
+        const cerrarLinks = document.querySelectorAll(".close-link");
+
+        abrir.addEventListener("click", () => {
+            nav.classList.add("visible");
+            console.log("Navegación abierta"); // Agrega un mensaje para depuración
+        });
+
+        cerrar.addEventListener("click", () => {
+            nav.classList.remove("visible");
+        });
+
+        cerrarLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                nav.classList.remove("visible");
+            });
+        });
 </script>
 </body>
 </html>

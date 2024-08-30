@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota de Venta</title>
     <style>
-        /* Aquí puedes agregar estilos para el PDF */
+table{
+    border-collapse: collapse; 
+}
+
+td{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table th {
+    background-color: black;
+    color: white;
+    text-align: left;
+}
+
     </style>
 </head>
 <body>
@@ -15,7 +31,7 @@
     <p><strong>Total de Venta:</strong> ${{ $sale->total }}</p>
 
     <h2>Detalles de la Venta</h2>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Producto</th>

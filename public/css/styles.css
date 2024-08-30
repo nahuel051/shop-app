@@ -708,3 +708,76 @@ font-size: 20px;
   font-size: 20px;
   }
   
+
+/* DETAILS PRODUCT */
+.content-detail{
+  border: 1px solid black;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content-detail h2{
+  margin-top: 5%;
+}
+.content-quantity{
+  display: flex;
+}
+
+.content-detail button{
+  background-color: #C34348;
+  color: #fff;
+  border: none;
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+
+
+/* Payment*/
+
+.content-payment{
+  border: 1px solid black;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-payment h2{
+  margin-top: 5%;
+} 
+.content-payment button{
+  background-color: #C34348;
+  color: #fff;
+  border: none;
+  width: 120px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+
+
+/* Estilos generales para el select */
+.custom-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Estilo para cuando el select está enfocado */
+.custom-select:focus {
+  outline: none;
+  border-color: #888;
+}
