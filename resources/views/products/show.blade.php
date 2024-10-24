@@ -8,14 +8,16 @@
     <p>{{ $product->description }}</p>
     <p>Precio: ${{ $product->price }}</p>
     <p>Publicado por: {{ $product->user->name }}</p>
-
+    <!-- Verifica si el producto está disponible en stock. -->
     @if($product->quantity > 0)
+    <!-- Crea un formulario para enviar una solicitud POST a la ruta cart.add -->
         <form action="{{ route('cart.add', $product->id) }}" method="post">
             @csrf
             <div class="content-quantiy">
             <label for="quantity">Cantidad disponible: {{ $product->quantity }}</label>
             <input type="number" name="quantity" id="quantity" min="1" max="{{ $product->quantity }}" required>
             </div>
+            <!-- Verifica si el usuario autenticado no es el autor del producto antes de mostrar el botón para agregar al carrito. -->
             @if(Auth::id() !== $product->user_id)
                 <button type="submit">Agregar al Carrito</button>
             @else

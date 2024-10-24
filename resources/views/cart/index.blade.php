@@ -4,6 +4,7 @@
 @include('sidebar')
 <div class="content-cart">
 <h2>Carrito de Compras</h2>
+<!-- Verifica si hay elementos en la sesión bajo la clave 'cart' y si la cantidad de elementos es mayor a cero. -->
 @if(session('cart') && count(session('cart')) > 0)
 <div class="table-container">
     <table class="styled-table">
@@ -18,7 +19,9 @@
             </tr>
         </thead>
         <tbody>
+        <!-- Se utiliza para iterar sobre los elementos almacenados en la sesión bajo la clave 'cart' -->
         @foreach(session('cart') as $id => $item)
+        <!-- Se utiliza el ID del producto ($id) para buscar el producto en la base de datos usando el modelo Product. -->
     @php
         $product = App\Models\Product::find($id);
     @endphp

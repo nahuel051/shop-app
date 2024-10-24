@@ -1,5 +1,5 @@
 <?php
-
+// Este archivo define un servicio que se encarga de generar documentos PDF utilizando la biblioteca Dompdf.
 namespace App\Services;
 
 use Dompdf\Dompdf;

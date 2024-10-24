@@ -12,19 +12,19 @@ class Sale extends Model
 
     protected $fillable = ['user_id_buyer', 'user_id_seller', 'payment_method', 'total'];
 
-    // Relación: Un 'Sale' pertenece a un usuario comprador
+    //relación de pertenencia (belongsTo) entre Sale y User. Aquí, user_id_buyer es la clave foránea en la tabla sales que hace referencia a la tabla users. Indica que cada venta tiene un comprador (usuario). 
     public function buyer()
     {
         return $this->belongsTo(User::class, 'user_id_buyer');
     }
 
-    // Relación: Un 'Sale' pertenece a un usuario vendedor
+    //relación de pertenencia (belongsTo) entre Sale y User. Aquí, user_id_seller es la clave foránea en la tabla sales que hace referencia a la tabla users. Indica que cada venta tiene un vendedor (usuario).    
     public function seller()
     {
         return $this->belongsTo(User::class, 'user_id_seller');
     }
 
-    // Relación: Un 'Sale' tiene muchos 'DetailsSale'
+    //relación de uno a muchos (hasMany) entre Sale y DetailsSale. Aquí, sale_id es la clave foránea en la tabla details_sales que hace referencia a la tabla sales. Indica que una venta puede tener múltiples detalles asociados.
     public function details()
     {
         return $this->hasMany(DetailsSale::class, 'sale_id');

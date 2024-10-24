@@ -23,19 +23,20 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        //TABLA PARA LOS TOKENS DE RESTABLECIMIENTO DE CONTRASEÑA.
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
+            $table->string('email')->primary(); // La dirección de correo electrónico del usuario que solicita el restablecimiento
+            $table->string('token'); // El token único generado para la solicitud de restablecimiento de contraseña
             $table->timestamp('created_at')->nullable();
         });
-
+        //TABLA PARA LAS SESIONES DE USUARIOS.
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
+            $table->string('id')->primary(); // El identificador único de la sesión
+            $table->foreignId('user_id')->nullable()->index(); // La referencia al ID del usuario asociado a la sesión, si existe
+            $table->string('ip_address', 45)->nullable(); // La dirección IP desde la que se creó la sesión
+            $table->text('user_agent')->nullable(); // La información del agente de usuario (navegador) utilizado
+            $table->longText('payload'); // Los datos serializados de la sesión
+            $table->integer('last_activity')->index(); // La última vez que la sesión fue activada, en formato de timestamp
         });
     }
 

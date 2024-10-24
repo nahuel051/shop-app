@@ -17,6 +17,7 @@
         </tr>
         </thead>
         <tbody>
+    <!-- Itera la colección de productos -->
         @foreach($products as $product)
         <tr>
             <td>{{ $product->name }}</td>
@@ -33,8 +34,10 @@
             <td>
             <div class="content-action">
             <a href="{{ route('products.edit', $product->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <!-- Envía una solicitud DELETE a la ruta de eliminación. -->
                 <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                     @csrf
+                    <!-- método de solicitud es DELETE. -->
                     @method('DELETE')
                     <button type="submit"><i class="fa-solid fa-trash"></i></button>
                 </form>

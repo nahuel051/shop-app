@@ -3,8 +3,10 @@
     <div class="container-content">
             @include('sidebar')
         <div class="content-home">
+            <!-- Itera sobre la colección de productos -->
             @foreach($products as $product)
                 <div class="content-product">
+            <!-- Verifica si el producto tiene una imagen asociada. -->
                     @if ($product->img)
                         <img src="{{ asset('storage/' . $product->img) }}" alt="{{ $product->name }}">
                     @endif
@@ -37,5 +39,4 @@
 
     </script>
 </body>
-
 </html>

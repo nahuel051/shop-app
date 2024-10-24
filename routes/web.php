@@ -13,9 +13,11 @@ Route::get('/', function () {
 
 //REGISTRO E INICIO DE SESIÓN
 Route::get('/auth', [AuthController::class, 'showAuthForm'])->name('auth');
+// Define una ruta POST para /login que llama al método login del AuthController. Esta ruta maneja el inicio de sesión del usuario y se le da el nombre login. Lo mismo con register para registrar y logout para cerrar la sesión
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+//Redigie /login, /register, /logout a auth
 Route::get('/login', function() {
     return redirect()->route('auth');
 });

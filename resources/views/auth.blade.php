@@ -5,10 +5,12 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <!-- Formulario de Login -->
+                <!-- La acción se establece en la ruta login, que se define en (web.php) y se usa el método POST para enviar los datos del formulario. -->
                 <form id="loginForm" class="sign-in-form" action="{{ route('login') }}" method="post">
                     <h2>Iniciar Sesión</h2>
-                    @csrf
-                    <input type="email" name="email" required placeholder="Email">
+                    @csrf 
+                    <!-- Se incluye el token CSRF para proteger contra ataques de falsificación de solicitudes entre sitios -->
+                    <input type="email" name="email" required placeholder="Email" autocomplete="off">
                     <input type="password" name="password" required placeholder="Password">
                     <br>
                     <button type="submit">Login</button>
@@ -52,21 +54,28 @@
             // Manejar formulario de login
             $('#loginForm').on('submit', function (event) {
                 event.preventDefault();
-                var form = $(this);
+                var form = $(this); // Obtiene el formulario actual
 
                 $.ajax({
-                    url: form.attr('action'),
-                    type: form.attr('method'),
-                    data: form.serialize(),
+                    url: form.attr('action'),  // URL a la que se enviarán los datos del formulario (ruta de login)
+                    type: form.attr('method'), // Método de envío del formulario (POST)
+                    data: form.serialize(), // Serializa los datos del formulario en formato URL-encoded
                     success: function (response) {
+                    // Si la solicitud es exitosa, redirige al usuario a la página de inicio
                         window.location.href = "{{ route('home') }}";
                     },
                     error: function (xhr) {
-                        var errors = xhr.responseJSON.errors;
-                        var errorMessages = "";
+                        // Si ocurre un error, procesa la respuesta del servidor
+                        var errors = xhr.responseJSON.errors; // Obtiene los errores del JSON de respuesta
+                        var errorMessages = ""; // Variable para almacenar los mensajes de error
                         $.each(errors, function (key, value) {
-                            errorMessages += "<p>" + value[0] + "</p>";
+                        // Itera sobre los errores y los agrega a la variable errorMessages
+                        // value[0]: Accede al primer mensaje de error en el array para el campo actual
+                        // Para el campo email, value[0] accedería a "El campo email es obligatorio.".
+                        // Para el campo password, value[0] accedería a "La contraseña es demasiado corta.".
+                        errorMessages += "<p>" + value[0] + "</p>";
                         });
+                        // Actualiza el contenido del div con id "loginErrorMessages" con los mensajes de error
                         $("#loginErrorMessages").html(errorMessages);
                     }
                 });

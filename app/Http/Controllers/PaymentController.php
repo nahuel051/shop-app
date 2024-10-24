@@ -17,6 +17,7 @@ class PaymentController extends Controller
 {
     public function showPaymentForm()
     {
+        // recuperar el carrito de la sesión. Si el carrito no está presente en la sesión, se asigna un array vacío [] por defecto. Esto asegura que $cart siempre será un array, evitando errores si no hay productos en el carrito.
         $cart = session()->get('cart', []);
         return view('checkout.payment', compact('cart'));
     }
@@ -27,15 +28,17 @@ class PaymentController extends Controller
         $request->validate([
             'payment_method' => 'required|string|in:mercado_pago,paypal,visa',
         ]);
-
+        // Utiliza session()->get('cart', []) para obtener el carrito de la sesión.
         $cart = session()->get('cart', []);
-
+        // La función empty() verifica si $cart está vacío. 
         if (empty($cart)) {
             return redirect()->route('cart.index')->withErrors('Tu carrito está vacío.');
         }
 
         // Verificar que todos los productos en el carrito pertenecen al mismo vendedor
+        // array_key_first($cart) obtiene la clave del primer elemento en el carrito. Luego, Product::find($id) busca el producto correspondiente en la base de datos para obtener el user_id del vendedor de ese producto. Esto establece el sellerId como el identificador del vendedor para comparación.
         $sellerId = Product::find(array_key_first($cart))->user_id;
+        // El bucle foreach recorre todos los productos en el carrito. Para cada producto, busca el producto en la base de datos y verifica si el user_id del vendedor coincide con el sellerId obtenido previamente. Si encuentra un producto de un vendedor diferente, redirige al usuario de vuelta al carrito con un mensaje de error.
         foreach ($cart as $id => $item) {
             $product = Product::find($id);
             if ($product->user_id !== $sellerId) {

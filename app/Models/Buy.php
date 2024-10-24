@@ -13,19 +13,19 @@ class Buy extends Model
     protected $fillable = ['user_id_buyer', 'user_id_seller','payment_method', 'total'];
 
 
-    // Relación: Un 'Buy' pertenece a un usuario comprador
+    //relación (belongsTo) entre Buy y User, donde user_id_buyer es la clave foránea en la tabla buys que referencia a la tabla users. Esto significa que cada compra tiene un usuario comprador.
     public function buyer()
     {
         return $this->belongsTo(User::class, 'user_id_buyer');
     }
 
-    // Relación: Un 'Buy' pertenece a un usuario vendedor
+    //relación (belongsTo) entre Buy y User, donde user_id_seller es la clave foránea en la tabla buys que referencia a la tabla users. Esto significa que cada compra tiene un usuario vendedor.
     public function seller()
     {
         return $this->belongsTo(User::class, 'user_id_seller');
     }
     
-    // Relación: Un 'Buy' tiene muchos 'DetailsBuy'
+    //relación de uno a muchos (hasMany) entre Buy y DetailsBuy, donde buy_id es la clave foránea en la tabla details_buys que referencia a la tabla buys. Esto significa que una compra puede tener muchos detalles de compra.   
     public function details()
     {
         return $this->hasMany(DetailsBuy::class, 'buy_id');

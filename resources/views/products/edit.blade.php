@@ -3,8 +3,10 @@
 <div class="container-content">
     @include('sidebar')
     <div class="content-create">
+    <!-- enviar datos a la ruta products.update con el método POST. -->
     <form id="editForm" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <!-- método PUT para la actualización de recursos. -->
         @method('PUT')
         <h2>Editar Producto</h2>
     <input type="text" name="name" value="{{ $product->name }}" required placeholder="Nombre de producto">
@@ -25,9 +27,9 @@
     $(document).ready(function() {
         $('#editForm').on('submit', function(e) {
             e.preventDefault();
-            let form = $(this);
-            let url = form.attr('action');
-            let formData = new FormData(this);
+            let form = $(this); //Obtiene el formulario actual.
+            let url = form.attr('action'); //Obtiene la URL de acción del formulario.
+            let formData = new FormData(this); // incluye los campos del formulario
 
             $.ajax({
                 url: url,

@@ -1,5 +1,5 @@
 <?php
-
+// Este archivo define un proveedor de servicios en Laravel. Los proveedores de servicios son la forma principal de vincular y configurar servicios en Laravel.
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;

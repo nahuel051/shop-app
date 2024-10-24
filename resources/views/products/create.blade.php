@@ -3,6 +3,7 @@
     <div class="container-content">
         @include('sidebar')
         <div class="content-create">
+        <!-- enviar datos al servidor usando la ruta products.store -->
         <form id="productForm" action="{{route('products.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <h2>Publicar Producto</h2>
@@ -25,28 +26,29 @@
         $(document).ready(function () {
             $('#productForm').on('submit', function (e) {
                 e.preventDefault();
-                let form = $(this);
-                let url = form.attr('action');
-                let formData = new FormData(this);
+                let form = $(this);// Obtiene el formulario actual
+                let url = form.attr('action'); // Obtiene la URL de acción del formulario
+                let formData = new FormData(this); // Crea un objeto FormData con los datos del formulario
+
 
                 $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        window.location.href = "{{ route('home') }}";
-                    },
-                    error: function (xhr) {
-                        let errors = xhr.responseJSON.errors;
-                        let errorHtml = '<ul>';
-                        $.each(errors, function (key, value) {
-                            errorHtml += '<li>' + value[0] + '</li>'; // Muestra el primer mensaje de error de cada campo
-                        });
-                        errorHtml += '</ul>';
-                        $('#errorContainer').html(errorHtml);
-                    }
+                    url: url, // URL para enviar los datos
+                type: 'POST', // Método HTTP
+                data: formData, // Datos del formulario
+                processData: false, // No procesar los datos
+                contentType: false, // No establecer el tipo de contenido (porque es un formulario con archivos)
+                success: function (response) {
+                    window.location.href = "{{ route('home') }}";
+                },
+                error: function (xhr) {
+                    let errors = xhr.responseJSON.errors; // Obtiene los errores de la respuesta JSON
+                    let errorHtml = '<ul>'; // Inicia una lista HTML para los errores
+                    $.each(errors, function (key, value) {
+                        errorHtml += '<li>' + value[0] + '</li>'; // Muestra el primer mensaje de error de cada campo
+                    });
+                    errorHtml += '</ul>'; // Cierra la lista HTML
+                    $('#errorContainer').html(errorHtml); // Muestra los errores en el contenedor de errores
+                }
                 });
             });
         });
